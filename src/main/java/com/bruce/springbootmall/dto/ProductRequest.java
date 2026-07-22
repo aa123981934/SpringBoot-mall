@@ -1,32 +1,31 @@
-package com.bruce.springbootmall.model;
+package com.bruce.springbootmall.dto;
 
 import com.bruce.springbootmall.constant.ProductCategory;
-
-import java.util.Date;
+import jakarta.validation.constraints.NotNull;
 
 /*
-作用：對應資料庫中的 product 資料表，代表一筆完整的商品資料。
-用於將資料庫查詢結果封裝成 Java 物件，或作為 API 的 Response Body
+DTO層資料傳輸物件
+作用：專門用來接收前端在「新增商品 (POST)」或「修改商品 (PUT)」時傳入的 JSON 請求資料。
+商品名稱 (不可為 null)
 */
-public class Product {
+public class ProductRequest {
 
-    private Integer productId;
+    @NotNull
     private String productName;
+
+    @NotNull
     private ProductCategory category;
+
+    @NotNull
     private String imageUrl;
+
+    @NotNull
     private Integer price;
+
+    @NotNull
     private Integer stock;
+
     private String description;
-    private Date createDate;
-    private Date last_Modified_date;
-
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
 
     public String getProductName() {
         return productName;
@@ -74,21 +73,5 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getLast_Modified_date() {
-        return last_Modified_date;
-    }
-
-    public void setLast_Modified_date(Date last_Modified_date) {
-        this.last_Modified_date = last_Modified_date;
     }
 }

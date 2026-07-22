@@ -6,7 +6,11 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+/*
+RowMapper 表格轉物件
+作用：扮演資料庫與 Java 物件之間的「翻譯官」。
+負責將資料庫查詢結果集 (ResultSet) 的每一列數據，逐一轉換並封裝成 Java 的 Product 模型物件。
+*/
 public class ProductRowMapper implements RowMapper<Product> {
     @Override
     public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
