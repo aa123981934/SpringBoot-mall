@@ -20,6 +20,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    //查詢
     @GetMapping("/products/{productsId}")
     public ResponseEntity<Product> getProduct(@PathVariable Integer productsId) {
         Product product = productService.getProductById(productsId);
@@ -31,6 +32,7 @@ public class ProductController {
         }
     }
 
+    //新增
     @PostMapping("/products")
     public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductRequest productRequest) {
         Integer productId = productService.createProduct(productRequest);
@@ -38,5 +40,24 @@ public class ProductController {
         Product product =  productService.getProductById(productId);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
+    }
+
+
+    //修改商品
+    @PutMapping("/products/{productsId}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Integer productsId,
+                                                 @RequestBody @Valid ProductRequest productRequest) {
+        // 檢查product 是否存在
+        Product product = productService.getProductById(productsId);
+        if (product == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+    // 檢查商品的數據
+    productService.updateProduct(productsId,productRequest);
+
+    Product updatedProduct =  productService.getProductById(productsId);
+
+    return ResponseEntity.status(HttpStatus.OK).body(updatedProduct);
     }
 }

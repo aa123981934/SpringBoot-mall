@@ -25,6 +25,7 @@ public class ProductDaoImpl implements ProductDao {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    //查詢商品
     @Override
     public Product getProductById(Integer ProductId) {
 
@@ -42,7 +43,7 @@ public class ProductDaoImpl implements ProductDao {
             return null;
         }
     }
-
+    //新增商品
     @Override
     public Integer createProduct(ProductRequest productRequest) {
 
@@ -67,5 +68,26 @@ public class ProductDaoImpl implements ProductDao {
         int productId = keyHolder.getKey().intValue();
 
         return productId;
+    }
+    // 修改商品
+    @Override
+    public void updateProduct(Integer productId, ProductRequest productRequest) {
+        String sql = "UPDATE product SET product_name = :productName, category = :category, image_url = :imageUrl, " +
+                "price = :price, stock = :stock, description = :description, last_modified_date = :lastModifiedDate " +
+                "WHERE product_id = :productId";
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("productId", productId);
+
+        map.put("productName", productRequest.getProductName());
+        map.put("category", productRequest.getCategory().toString());
+        map.put("imageUrl", productRequest.getImageUrl()); // 修正：imageurl -> imageUrl (大寫 U)
+        map.put("price", productRequest.getPrice());
+        map.put("stock", productRequest.getStock());
+        map.put("description", productRequest.getDescription());
+
+        map.put("lastModifiedDate", new Date()); // 修正：統一變數名稱命名
+
+        namedParameterJdbcTemplate.update(sql, map);
     }
 }
