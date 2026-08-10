@@ -25,6 +25,20 @@ public class ProductDaoImpl implements ProductDao {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    // 查詢商品列表
+    @Override
+    public List<Product> getProducts() {
+        String sql = "SELECT product_id, product_name, category, image_url, price, stock, " +
+                "description, created_date, last_modified_date " +
+                "FROM product";
+
+        Map<String, Object> map = new HashMap<>();
+
+        List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
+
+        return productList;
+    }
+
     //查詢商品
     @Override
     public Product getProductById(Integer ProductId) {
@@ -81,12 +95,12 @@ public class ProductDaoImpl implements ProductDao {
 
         map.put("productName", productRequest.getProductName());
         map.put("category", productRequest.getCategory().toString());
-        map.put("imageUrl", productRequest.getImageUrl()); // 修正：imageurl -> imageUrl (大寫 U)
+        map.put("imageUrl", productRequest.getImageUrl());
         map.put("price", productRequest.getPrice());
         map.put("stock", productRequest.getStock());
         map.put("description", productRequest.getDescription());
 
-        map.put("lastModifiedDate", new Date()); // 修正：統一變數名稱命名
+        map.put("lastModifiedDate", new Date());
 
         namedParameterJdbcTemplate.update(sql, map);
     }

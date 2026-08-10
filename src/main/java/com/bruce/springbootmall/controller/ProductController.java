@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+
 /*
 API 介面層 / 請求入口 (Front Controller)
 接收前端發送的 HTTP 請求，驗證參數後呼叫 Service 層處理，
@@ -20,7 +23,16 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    //查詢
+    // 查詢商品列表
+    @GetMapping("/products")
+    public ResponseEntity<List<Product>> getProduct() {
+       List<Product> productList = productService.getProducts();
+
+       return ResponseEntity.status(HttpStatus.OK).body(productList);
+    }
+
+
+    //查詢商品
     @GetMapping("/products/{productsId}")
     public ResponseEntity<Product> getProduct(@PathVariable Integer productsId) {
         Product product = productService.getProductById(productsId);
@@ -32,7 +44,7 @@ public class ProductController {
         }
     }
 
-    //新增
+    //新增商品
     @PostMapping("/products")
     public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductRequest productRequest) {
         Integer productId = productService.createProduct(productRequest);

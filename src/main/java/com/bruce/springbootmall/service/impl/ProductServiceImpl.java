@@ -7,12 +7,19 @@ import com.bruce.springbootmall.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /*
 負責處理真正的商業邏輯
 例如：計算折扣、檢查庫存、呼叫 DAO去資料庫抓取資料、整理資料格式等。
 * */
 @Component
 public class ProductServiceImpl implements ProductService {
+
+    @Override
+    public List<Product> getProducts() {
+        return productDao.getProducts();
+    }
 
     @Autowired
     private ProductDao productDao;

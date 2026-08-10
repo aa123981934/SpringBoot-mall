@@ -3,6 +3,8 @@ package com.bruce.springbootmall.dao;
 import com.bruce.springbootmall.dto.ProductRequest;
 import com.bruce.springbootmall.model.Product;
 
+import java.util.List;
+
 
 /*
 *DAO(資料存取物件)
@@ -10,6 +12,8 @@ import com.bruce.springbootmall.model.Product;
 負責處理所有資料庫層面的 CRUD (增刪改查) 操作。
 * */
 public interface ProductDao {
+
+    List<Product> getProducts();
 
     Product getProductById(Integer ProductId);
 

@@ -3,7 +3,7 @@ package com.bruce.springbootmall.service;
 import com.bruce.springbootmall.dto.ProductRequest;
 import com.bruce.springbootmall.model.Product;
 
-import java.time.Period;
+import java.util.List;
 
 /*
 業務邏輯層 (Business Logic Layer) 的功能規格藍圖
@@ -11,6 +11,8 @@ import java.time.Period;
 作為 Controller 與 DAO 之間的橋樑，負責協調資料處理與業務規則。
 */
 public interface ProductService {
+
+    List<Product> getProducts();
 
     Product getProductById(Integer ProductId);
 
