@@ -1,5 +1,6 @@
 package com.bruce.springbootmall.service.impl;
 
+import com.bruce.springbootmall.constant.ProductCategory;
 import com.bruce.springbootmall.dao.ProductDao;
 import com.bruce.springbootmall.dto.ProductRequest;
 import com.bruce.springbootmall.model.Product;
@@ -17,8 +18,8 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     @Override
-    public List<Product> getProducts() {
-        return productDao.getProducts();
+    public List<Product> getProducts(ProductCategory category,String search) {
+        return productDao.getProducts(category,search);
     }
 
     @Autowired
