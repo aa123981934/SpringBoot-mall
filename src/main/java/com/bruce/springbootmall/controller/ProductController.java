@@ -6,9 +6,12 @@ import com.bruce.springbootmall.dto.ProductRequest;
 import com.bruce.springbootmall.model.Product;
 import com.bruce.springbootmall.service.ProductService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +22,7 @@ API 介面層 / 請求入口 (Front Controller)
 接收前端發送的 HTTP 請求，驗證參數後呼叫 Service 層處理，
 最後將結果包裝成 ResponseEntity (狀態碼 + JSON Body) 回傳給前端。
 */
+@Validated
 @RestController
 public class ProductController {
 
@@ -34,14 +38,21 @@ public class ProductController {
 
             // 排序 Sorting
             @RequestParam(defaultValue = "created_date") String orderBy,
-            @RequestParam(defaultValue = "desc") String sort) {
+            @RequestParam(defaultValue = "desc") String sort,
 
+            // 分頁 Pagination
+            @RequestParam(defaultValue = "5") @Max(100) @Min(0) Integer top, //這邊的top指的是MSSQL的取前N筆資料
+            @RequestParam(defaultValue = "0") @Min(0) Integer offset  //這邊的offset指的是MSSQL的分頁功能
+            ) {
+
+        // 將前端傳入的查詢參數(篩選 / 排序 / 分頁)組裝成 ProductQueryParams,交由 Service 層查詢商品
         ProductQueryParams productQueryParams = new ProductQueryParams();
         productQueryParams.setCategory(category);
         productQueryParams.setSearch(search);
         productQueryParams.setOrderBy(orderBy);
         productQueryParams.setSort(sort);
-
+        productQueryParams.setTop(top);
+        productQueryParams.setOffset(offset);
 
        List<Product> productList = productService.getProducts(productQueryParams);
 

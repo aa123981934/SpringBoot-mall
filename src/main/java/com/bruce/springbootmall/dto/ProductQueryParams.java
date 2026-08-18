@@ -8,6 +8,8 @@ public class ProductQueryParams {
     private String search;
     private String orderBy;
     private String sort;
+    private Integer top; //這邊的top指的是MSSQL的取前N筆資料
+    private Integer offset; //這邊的offset指的是MSSQL的分頁功能
 
     public ProductCategory getCategory() {
         return category;
@@ -39,5 +41,21 @@ public class ProductQueryParams {
 
     public void setSort(String sort) {
         this.sort = sort;
+    }
+
+    public Integer getTop() {
+        return top;
+    }
+
+    public void setTop(Integer top) {
+        this.top = top;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
     }
 }
