@@ -24,6 +24,7 @@ public class UserDaoImpl implements UserDao {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    // 根據 User ID 查詢使用者資料
     @Override
     public User getUserById(Integer userId) {
 
@@ -43,6 +44,25 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    // 根據 Email 查詢使用者資料
+    @Override
+    public User getUserByEmail(String email) {
+        String sql = "SELECT user_id, email, password,created_date, last_modified_date " +
+        "FROM [user] WHERE email = :email";
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("email",email);
+
+        List<User> userlist = namedParameterJdbcTemplate.query(sql,map, new UserRowMapper());
+
+        if(userlist.size() > 0){
+            return userlist.get(0);
+        }else  {
+            return null;
+        }
+    }
+
+    // 創建一筆帳號
     @Override
     public Integer createUser(UserRegisterRequest userRegisterRequest) {
 
@@ -59,9 +79,8 @@ public class UserDaoImpl implements UserDao {
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        // 修改處 2：增加 new String[]{"user_id"} 參數
-        // 這是解決「資料庫成功新增但跳 500 錯誤」的關鍵，讓 SQL Server 能正確把自增的 user_id 給 keyHolder
-        namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource(map), keyHolder, new String[]{"user_id"});
+
+        namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource(map), keyHolder);
 
         int userId = keyHolder.getKey().intValue();
 
