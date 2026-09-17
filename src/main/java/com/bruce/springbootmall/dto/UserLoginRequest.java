@@ -3,10 +3,8 @@ package com.bruce.springbootmall.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-// 前端傳入的註冊請求資料（包含欄位驗證）
-public class UserRegisterRequest {
+public class UserLoginRequest {
 
-    // 不能為null、長度不為0且，不能全為空白字元
     @NotBlank
     @Email
     private String email;

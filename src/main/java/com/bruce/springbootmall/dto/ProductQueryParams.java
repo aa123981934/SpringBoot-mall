@@ -2,9 +2,12 @@ package com.bruce.springbootmall.dto;
 
 import com.bruce.springbootmall.constant.ProductCategory;
 
+// 商品查詢條件參數（包含分類、關鍵字搜尋、排序與分頁）
 public class ProductQueryParams {
 
+    //商品分類篩選
     private ProductCategory category;
+
     private String search;
     private String orderBy;
     private String sort;

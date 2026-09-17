@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 
+// 對應資料庫中的 User 資料表
 public class User {
 
     private Integer userId;
